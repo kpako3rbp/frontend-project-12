@@ -48,5 +48,6 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.23.4"
-  }
+  },
+  "homepage": "https://slack-project-85e7.onrender.com"
 }
