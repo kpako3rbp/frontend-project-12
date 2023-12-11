@@ -1,3 +1,5 @@
-const App = () => <h1>Вот таки дела</h1>;
+import React from 'react';
+
+const App = () => (<h1>Болванка приложения</h1>);
 
 export default App;
