@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import './assets/application.scss';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, Outlet } from 'react-router-dom';
 
+import Layout from './components/Layout.jsx';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ChatPage from './pages/ChatPage';
 import AuthContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
-import cn from 'classnames';
 
-import Layout from './components/Layout.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -31,13 +30,6 @@ const ChatRoute = ({ children }) => {
 };
 
 const App = () => {
-  const auth = useAuth();
-
-  const containerClassName = cn({
-    'container-fluid h-100': true,
-    'my-4 overflow-hidden rounded shadow': auth.loggedIn,
-  });
-
   return (
     <AuthProvider>
       <Router>
