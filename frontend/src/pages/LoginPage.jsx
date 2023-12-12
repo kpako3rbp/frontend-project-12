@@ -4,11 +4,13 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Layout from '../components/Layout';
 import loginImg from '../assets/avatar.jpg';
+import routes from '../routes/routes.js';
+import axios from 'axios';
 
 const LoginPage = () => {
   const inputRef = useRef();
   useEffect(() => {
-    //inputRef.current.focus();
+    inputRef.current.focus();
   }, []);
 
   const LoginSchema = Yup.object().shape({
@@ -31,39 +33,59 @@ const LoginPage = () => {
                   password: '',
                 }}
                 validationSchema={LoginSchema}
-                onSubmit={(values) => {
-                  console.log(values);
+                onSubmit={async (values, { setErrors }) => {
+                  try {
+                    const res = await axios.post(routes.loginPath(), values);
+                    localStorage.setItem('userId', JSON.stringify(res.data));
+                  } catch (err) {
+                    if (err.isAxiosError && err.response.status === 401) {
+                      setErrors({
+                        username: 'Неверное имя пользователя или пароль',
+                        password: 'Неверное имя пользователя или пароль',
+                      });
+                      inputRef.current.select();
+                      return;
+                    }
+                    throw err;
+                  }
                 }}
               >
                 {({ errors, touched }) => (
                   <Form className="col-12 col-md-6 mt-3 mt-mb-0">
                     <div className="form-floating mb-3">
                       <Field
-                        className="form-control"
+                        innerRef={inputRef}
+                        className={errors.username && touched.username ? 'form-control is-invalid' : 'form-control'}
                         name="username"
                         autoComplete="username"
                         placeholder="Ваш ник"
                         id="username"
                       />
-                      {errors.username && touched.username ? <div className='form-input-error'>{errors.username}</div> : null}
+                      {errors.username && touched.username ? (
+                        <div className="invalid-tooltip">{errors.username}</div>
+                      ) : null}
                       <label className="form-label" htmlFor="username">
                         Пароль
                       </label>
                     </div>
                     <div className="form-floating mb-3">
                       <Field
-                        className="form-control"
+                        className={errors.password && touched.password ? 'form-control is-invalid' : 'form-control'}
                         name="password"
                         autoComplete="current-password"
                         placeholder="Пароль"
                         id="password"
                       />
-                      {errors.password && touched.password ? <div className='form-input-error'>{errors.password}</div> : null}
+                      {errors.password && touched.password ? (
+                        <div className="invalid-tooltip">{errors.password}</div>
+                      ) : null}
                       <label className="form-label" htmlFor="password">
                         Пароль
                       </label>
                     </div>
-                    <button className="w-100 mb-3 btn btn-outline-primary" type="submit">Войти</button>
+                    <button className="w-100 mb-3 btn btn-outline-primary" type="submit">
+                      Войти
+                    </button>
                   </Form>
                 )}
               </Formik>
