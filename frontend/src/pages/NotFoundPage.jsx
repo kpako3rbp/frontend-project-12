@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const NotFoundPage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="text-center">
-      <h1 className="h4 text-muted">Страница не найдена</h1>
+      <h1 className="h4 text-muted">{t('notFoundPage.pageNotFound')}</h1>
       <p className="text-muted">
-        Но вы можете перейти <Link to="/">на главную страницу</Link>
+      {t('notFoundPage.youcan')} <Link to="/">{t('notFoundPage.mainPage')}</Link>
       </p>
     </div>
   );

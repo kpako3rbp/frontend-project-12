@@ -6,9 +6,10 @@ import cn from 'classnames';
 const Layout = ({ children }) => {
   const auth = useAuth();
   
-  const containerClassName = cn({
-    'container-fluid h-100': true,
-    'my-4 overflow-hidden rounded shadow': auth.loggedIn,
+  const containerClassName = cn({    
+    'container-fluid': !auth.loggedIn,
+    'h-100': true,
+    'container my-4 overflow-hidden rounded shadow': auth.loggedIn,
   })
 
   return (

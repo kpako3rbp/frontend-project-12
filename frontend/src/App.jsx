@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './assets/application.scss';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, Outlet } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 import Layout from './components/Layout.jsx';
 import LoginPage from './pages/LoginPage';
@@ -9,9 +10,11 @@ import ChatPage from './pages/ChatPage';
 import AuthContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 
+import store from './slices/index.js';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const userId = JSON.parse(localStorage.getItem('userId'));
+  const [loggedIn, setLoggedIn] = useState(!!userId);
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
@@ -31,24 +34,26 @@ const ChatRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="*" element={<NotFoundPage />} />
-            <Route
-              path="/"
-              element={
-                <ChatRoute>
-                  <ChatPage />
-                </ChatRoute>
-              }
-            />
-            <Route path="login" element={<LoginPage />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </AuthProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="*" element={<NotFoundPage />} />
+              <Route
+                path="/"
+                element={
+                  <ChatRoute>
+                    <ChatPage />
+                  </ChatRoute>
+                }
+              />
+              <Route path="login" element={<LoginPage />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </AuthProvider>
+    </Provider>
   );
 };
 
