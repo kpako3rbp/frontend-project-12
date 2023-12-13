@@ -25,6 +25,7 @@ const getAuthHeader = () => {
 const ChatPage = () => {
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(false);
+  const { username } = JSON.parse(localStorage.getItem('userId'));
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -44,10 +45,12 @@ const ChatPage = () => {
     fetchContent();
   });
 
-  return <div className="row h-100 bg-white flex-md-row">
-    {isDataLoaded && <Nav />}
-    {isDataLoaded && <Chat />}
-  </div>;
+  return (
+    <div className="row h-100 bg-white flex-md-row">
+      {isDataLoaded && <Nav />}
+      {isDataLoaded && <Chat username={username} />}
+    </div>
+  );
 };
 
 export default ChatPage;

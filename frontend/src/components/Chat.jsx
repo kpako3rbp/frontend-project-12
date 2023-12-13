@@ -1,26 +1,58 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { createSelector } from '@reduxjs/toolkit'
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import { actions as messagesActions } from '../slices/messagesSlice.js';
+import socket from '../socket.js';
 
-const Chat = () => {
+const Chat = ({ username }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const inputRef = useRef();
+  const messagesBoxRef = useRef();
+  const [submitDisabled, setSubmitDisabled] = useState(true);
 
-  const getChannelData = state => {
+  const getChannelData = (state) => {
     const { currentChannelId } = state.channelsInfo;
     const currentChannel = state.channelsInfo.channels.find(({ id }) => id === currentChannelId);
-    const messages = state.messagesInfo.messages.filter(({ channelId }) => channelId === currentChannelId);
-    
+    const messages = state.messagesInfo.messages.filter(
+      ({ channelId }) => channelId === currentChannelId
+    );
+
     return { currentChannel, messages };
   };
-  
-  const getChannelDataSelector = createSelector(
-    [getChannelData],
-    channelData => channelData
-  );
 
+  const getChannelDataSelector = createSelector([getChannelData], (channelData) => channelData);
   const { currentChannel, messages } = useSelector(getChannelDataSelector);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const body = inputRef.current.value;
+
+    socket.emit('newMessage', { body, channelId: currentChannel.id, username }, (response) => {
+      if (response.status === 'ok') {
+        e.target.reset();
+        setSubmitDisabled(true);
+      } else {
+        setSubmitDisabled(false);
+        console.error('Something went wrong');
+      }
+    });
+  };
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
+  }, [messages]);
+
+  useEffect(() => {
+    socket.on('newMessage', (payload) => {
+      dispatch(messagesActions.addMessage(payload));
+    });
+  }, []);
 
   return (
     <div className="col p-0 h-100">
@@ -31,23 +63,25 @@ const Chat = () => {
           </p>
           <span className="text-muted">{t('chat.counter.count', { count: messages.length })}</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div ref={messagesBoxRef} id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map(({ body, username, id }) => (
-            <div key={id} className="text-break mb-2">
+            <div key={`message-${id}`} className="text-break mb-2">
               <b>{username}</b>: {body}
             </div>
           ))}
         </div>
         <div className="mt-auto px-5 py-3">
-          <form className="py-1 border rounded-2">
+          <form onSubmit={handleSubmit} className="py-1 border rounded-2">
             <div className="input-group has-validation">
               <input
+                ref={inputRef}
+                onChange={(e) => setSubmitDisabled(!e.target.value)}
                 name="body"
                 aria-label="Новое сообщение"
                 placeholder={t('placeholders.message')}
                 className="border-0 p-0 ps-2 form-control"
               />
-              <button type="submit" className="btn btn-group-vertical" disabled="">
+              <button type="submit" className="btn btn-group-vertical" disabled={submitDisabled}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
