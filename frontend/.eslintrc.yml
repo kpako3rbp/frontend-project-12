@@ -1,7 +1,9 @@
 env:
   browser: true
   es2021: true
-extends: plugin:react/recommended
+extends:
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -9,7 +11,7 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-rules: 
+rules:
   import/extensions: 0
   import/no-unresolved: 0
   react/prop-types: 0

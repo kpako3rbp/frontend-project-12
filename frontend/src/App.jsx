@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './assets/application.scss';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import Layout from './components/Layout.jsx';
@@ -22,7 +22,9 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
-  return <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>{children}</AuthContext.Provider>
+  );
 };
 
 const ChatRoute = ({ children }) => {

@@ -3,14 +3,14 @@ export default {
     noAccount: 'Нет аккаунта?',
     signup: 'Регистрация',
     notFoundPage: {
-        pageNotFound: 'Страница не найдена',
-        youcan: 'Но вы можете перейти',
-        mainPage: 'на главную страницу',
+      pageNotFound: 'Страница не найдена',
+      youcan: 'Но вы можете перейти',
+      mainPage: 'на главную страницу',
     },
     buttons: {
-        login: 'Войти',
-        logout: 'Выйти',
-        send: 'Отправить'
+      login: 'Войти',
+      logout: 'Выйти',
+      send: 'Отправить',
     },
     chat: {
       channels: 'Каналы',
@@ -27,8 +27,8 @@ export default {
       message: 'Введите сообщение...',
     },
     errors: {
-        wrongUserOfPassword: 'Неверные имя пользователя или пароль',
-        required: 'Обязательное поле',
-    }
+      wrongUserOfPassword: 'Неверные имя пользователя или пароль',
+      required: 'Обязательное поле',
+    },
   },
 };

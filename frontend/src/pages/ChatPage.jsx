@@ -42,7 +42,7 @@ const ChatPage = () => {
     };
 
     fetchContent();
-  }, [dispatch]);
+  });
 
   return <div className="row h-100 bg-white flex-md-row">
     {isDataLoaded && <Nav />}
