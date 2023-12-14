@@ -54,8 +54,7 @@ const App = () => {
               />
               <Route path="login" element={<LoginPage />} />
               <Route path="signup" element={<SignupPage />} />
-            </Routes>
-            
+            </Routes>            
           </Layout>
           <ToastContainer />
         </Router>

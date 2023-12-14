@@ -7,6 +7,7 @@ import { actions as messagesActions } from '../slices/messagesSlice.js';
 import { useFormik } from 'formik';
 import socket from '../socket.js';
 import { toast } from 'react-toastify';
+import filter from 'leo-profanity';
 
 const Chat = ({ username }) => {
   const dispatch = useDispatch();
@@ -81,7 +82,7 @@ const Chat = ({ username }) => {
         <div ref={messagesBoxRef} id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map(({ body, username, id }) => (
             <div key={`message-${id}`} className="text-break mb-2">
-              <b>{username}</b>: {body}
+              <b>{username}</b>: {filter.clean(body)}
             </div>
           ))}
         </div>
