@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import socket from '../socket.js';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 
 const Add = (props) => {
   const { t } = useTranslation();
@@ -49,10 +50,9 @@ const Add = (props) => {
       if (response.status === 'ok') {
         onHide();
         submitBtnRef.disabled = false;
+        toast.success(t('notifications.channelAdded'));
       } else {
-        formik.setErrors({
-          name: t('errors.wentWrong'),
-        });
+        toast.error(t('notifications.channelAddFail'));
       }
     });
   };

@@ -48,10 +48,11 @@ const SignupPage = () => {
         navigate('/');
       } catch (err) {
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+        if (err.isAxiosError && err.response.status === 409) {
           formik.setErrors({
-            username: t('errors.wrongUserOfPassword'),
-            password: t('errors.wrongUserOfPassword'),
+            username: t(' '),
+            password: t(' '),
+            passwordConfirm: t('errors.userExists'),
           });
           inputRef.current.select();
           return;

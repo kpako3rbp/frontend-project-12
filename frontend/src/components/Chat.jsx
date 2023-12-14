@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
 import { useFormik } from 'formik';
 import socket from '../socket.js';
+import { toast } from 'react-toastify';
 
 const Chat = ({ username }) => {
   const dispatch = useDispatch();
@@ -17,14 +19,15 @@ const Chat = ({ username }) => {
     initialValues: {
       body: '',
     },
-    onSubmit: ({ body }, { resetForm }) => { // Отправляем сообщение на сервер, используя сокет
+    onSubmit: ({ body }, { resetForm }) => {
+      // Отправляем сообщение на сервер, используя сокет
       socket.emit('newMessage', { body, channelId: currentChannel.id, username }, (response) => {
         if (response.status === 'ok') {
           setSubmitDisabled(true);
           resetForm();
         } else {
           setSubmitDisabled(false);
-          console.error('Something went wrong');
+          toast.error(t('notifications.messageAddFail'));
         }
       });
     },
@@ -41,7 +44,7 @@ const Chat = ({ username }) => {
   };
 
   const getChannelDataSelector = createSelector([getChannelData], (channelData) => channelData);
-  const { currentChannel, messages } = useSelector(getChannelDataSelector);  
+  const { currentChannel, messages } = useSelector(getChannelDataSelector);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -57,9 +60,13 @@ const Chat = ({ username }) => {
 
   // Добавляем соообщение в стейт, когда сервер возвращает новое сообщение
   useEffect(() => {
-    socket.on('newMessage', (payload) => {
-      dispatch(messagesActions.addMessage(payload));
-    });
+    try {
+      socket.on('newMessage', (payload) => {
+        dispatch(messagesActions.addMessage(payload));
+      });
+    } catch {
+      toast.error(t('notifications.wentWrong'));
+    }
   }, []);
 
   return (
@@ -80,8 +87,8 @@ const Chat = ({ username }) => {
         </div>
         <div className="mt-auto px-5 py-3">
           <form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
-            <div className="input-group has-validation">
-              <input
+            <FormGroup className="input-group has-validation">
+              <FormControl
                 ref={inputRef}
                 onChange={formik.handleChange}
                 value={formik.values.body}
@@ -90,7 +97,12 @@ const Chat = ({ username }) => {
                 placeholder={t('placeholders.message')}
                 className="border-0 p-0 ps-2 form-control"
               />
-              <button type="submit" className="btn btn-group-vertical" disabled={submitDisabled}>
+              <Button
+                type="submit"
+                variant=""
+                className="btn-group-vertical"
+                disabled={submitDisabled}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 16 16"
@@ -104,8 +116,8 @@ const Chat = ({ username }) => {
                   ></path>
                 </svg>
                 <span className="visually-hidden">{t('buttons.send')}</span>
-              </button>
-            </div>
+              </Button>
+            </FormGroup>
           </form>
         </div>
       </div>

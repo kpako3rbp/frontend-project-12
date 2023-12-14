@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import socket from '../socket.js';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 
 const Rename = (props) => {
   const { t } = useTranslation();
@@ -50,10 +51,9 @@ const Rename = (props) => {
       if (response.status === 'ok') {
         onHide();
         submitBtnRef.disabled = false;
+        toast.success(t('notifications.channelRenamed'));
       } else {
-        formik.setErrors({
-          name: t('errors.wentWrong'),
-        });
+        toast.error(t('notifications.channelRenameFail'));
       }
     });
   };

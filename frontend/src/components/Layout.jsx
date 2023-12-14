@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
   return (
     <div className="d-flex flex-column h-100">
       <Header />
-      <div className={containerClassName}>{children}</div>
+      <div className={containerClassName}>{children}</div>      
     </div>
   );
 }

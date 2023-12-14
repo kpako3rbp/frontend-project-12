@@ -3,11 +3,11 @@ import _ from 'lodash';
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import socket from '../socket.js';
-import cn from 'classnames';
+import { toast } from 'react-toastify';
 
 const Remove = (props) => {
   const { t } = useTranslation();
-  const { modalInfo, onHide, channels } = props;
+  const { modalInfo, onHide } = props;
   const submitBtnRef = useRef();
 
   const handleSubmit = (e) => {
@@ -18,7 +18,9 @@ const Remove = (props) => {
       if (response.status === 'ok') {
         onHide();
         submitBtnRef.disabled = false;
+        toast.success(t('notifications.channelRemoved'));
       } else {
+        toast.error(t('notifications.channelRemoveFail'));
       }
     });
   };

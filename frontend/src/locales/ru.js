@@ -39,6 +39,7 @@ export default {
     },
     errors: {
       wrongUserOfPassword: 'Неверные имя пользователя или пароль',
+      userExists: 'Такой пользователь уже существует',
       required: 'Обязательное поле',
       mustBeUnique: 'Должно быть уникальным',
       passwordsMatch: 'Пароли должны совпадать',
@@ -75,5 +76,16 @@ export default {
       remove: 'Удалить',
       rename: 'Переименовать',
     },
+    notifications: {
+      channelAdded: 'Канал создан',
+      channelRenamed: 'Канал переименован',
+      channelRemoved: 'Канал удален',
+      channelAddFail: 'Ошибка при создании канала',
+      channelRenameFail: 'Ошибка при переименовании канала',
+      channelRemoveFail: 'Ошибка при удалении канала',
+      messageAddFail: 'Ошибка при отправке сообщения',
+      wentWrong: 'Что-то пошло не так, попробуйте позже',      
+      fetchFail: 'Ошибка при загрузке данных, попробуйте позже',   
+    }
   },
 };

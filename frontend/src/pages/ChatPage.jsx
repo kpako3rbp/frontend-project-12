@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import routes from '../routes.js';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
 
 import Nav from '../components/Nav.jsx';
 import Chat from '../components/Chat.jsx';
@@ -38,7 +39,7 @@ const ChatPage = () => {
 
         setDataLoaded(true);
       } catch (err) {
-        console.error('Error while fetching channels data', err);
+        toast.error(t('notifications.fetchFail'));
       }
     };
 

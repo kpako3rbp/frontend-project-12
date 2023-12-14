@@ -12,13 +12,14 @@ const init = async () => {
     .use(initReactI18next)
     .init({
       resources,
-      fallbackLng: defaultLanguage,
+      lng: defaultLanguage,
+      interpolation: {
+        escapeValue: false,
+      },
     });
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <App />
-    </I18nextProvider>
+    <App />
   );
 };
 

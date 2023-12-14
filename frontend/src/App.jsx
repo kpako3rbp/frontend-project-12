@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './assets/application.scss';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import Layout from './components/Layout.jsx';
 import LoginPage from './pages/LoginPage';
@@ -54,7 +55,9 @@ const App = () => {
               <Route path="login" element={<LoginPage />} />
               <Route path="signup" element={<SignupPage />} />
             </Routes>
+            
           </Layout>
+          <ToastContainer />
         </Router>
       </AuthProvider>
     </Provider>

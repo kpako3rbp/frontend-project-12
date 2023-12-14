@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import socket from '../socket.js';
 import getModal from '../modals/index.js';
+import { toast } from 'react-toastify';
 
 const renderModal = ({ modalInfo, hideModal, channels }) => {
   if (!modalInfo.type) {
@@ -90,33 +91,45 @@ const Nav = () => {
   }, [currentChannelId]);
 
   useEffect(() => {
-    socket.on('newChannel', (payload) => {
-      dispatch(channelsActions.addChannel(payload));
-      setSelectedChannelId(payload.id);
-      dispatch(channelsActions.setCurrentChannel(payload.id));
-      setTimeout(() => {
-        channelsBoxRef.current.scrollTop = channelsBoxRef.current.scrollHeight;
-      }, 0);
-    });
+    try {
+      socket.on('newChannel', (payload) => {
+        dispatch(channelsActions.addChannel(payload));
+        setSelectedChannelId(payload.id);
+        dispatch(channelsActions.setCurrentChannel(payload.id));
+        setTimeout(() => {
+          channelsBoxRef.current.scrollTop = channelsBoxRef.current.scrollHeight;
+        }, 0);
+      });
+    } catch {
+      toast.error(t('notifications.wentWrong'));
+    }
   }, []);
 
   useEffect(() => {
-    socket.on('renameChannel', (payload) => {
-      dispatch(channelsActions.renameChannel(payload));
-    });
+    try {
+      socket.on('renameChannel', (payload) => {
+        dispatch(channelsActions.renameChannel(payload));
+      });
+    } catch {
+      toast.error(t('notifications.wentWrong'));
+    }
   }, []);
 
   useEffect(() => {
-    socket.on('removeChannel', (payload) => {
-      dispatch(channelsActions.removeChannel(payload));
-    });
+    try {
+      socket.on('removeChannel', (payload) => {
+        dispatch(channelsActions.removeChannel(payload));
+      });
+    } catch {
+      toast.error(t('notifications.wentWrong'));
+    }
   }, []);
 
   return (
     <>
       <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          <b>Каналы</b>
+          <b>{t('chat.channels')}</b>
           <button
             onClick={() => showModal('adding')}
             type="button"
