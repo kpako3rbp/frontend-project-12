@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
+import { useFormik } from 'formik';
 import socket from '../socket.js';
 
 const Chat = ({ username }) => {
@@ -11,6 +12,23 @@ const Chat = ({ username }) => {
   const inputRef = useRef();
   const messagesBoxRef = useRef();
   const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const formik = useFormik({
+    initialValues: {
+      body: '',
+    },
+    onSubmit: ({ body }, { resetForm }) => { // Отправляем сообщение на сервер, используя сокет
+      socket.emit('newMessage', { body, channelId: currentChannel.id, username }, (response) => {
+        if (response.status === 'ok') {
+          setSubmitDisabled(true);
+          resetForm();
+        } else {
+          setSubmitDisabled(false);
+          console.error('Something went wrong');
+        }
+      });
+    },
+  });
 
   const getChannelData = (state) => {
     const { currentChannelId } = state.channelsInfo;
@@ -23,22 +41,7 @@ const Chat = ({ username }) => {
   };
 
   const getChannelDataSelector = createSelector([getChannelData], (channelData) => channelData);
-  const { currentChannel, messages } = useSelector(getChannelDataSelector);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const body = inputRef.current.value;
-
-    socket.emit('newMessage', { body, channelId: currentChannel.id, username }, (response) => {
-      if (response.status === 'ok') {
-        e.target.reset();
-        setSubmitDisabled(true);
-      } else {
-        setSubmitDisabled(false);
-        console.error('Something went wrong');
-      }
-    });
-  };
+  const { currentChannel, messages } = useSelector(getChannelDataSelector);  
 
   useEffect(() => {
     inputRef.current.focus();
@@ -48,6 +51,11 @@ const Chat = ({ username }) => {
     messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
   }, [messages]);
 
+  useEffect(() => {
+    setSubmitDisabled(!formik.values.body);
+  }, [formik.values.body]);
+
+  // Добавляем соообщение в стейт, когда сервер возвращает новое сообщение
   useEffect(() => {
     socket.on('newMessage', (payload) => {
       dispatch(messagesActions.addMessage(payload));
@@ -71,13 +79,14 @@ const Chat = ({ username }) => {
           ))}
         </div>
         <div className="mt-auto px-5 py-3">
-          <form onSubmit={handleSubmit} className="py-1 border rounded-2">
+          <form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
             <div className="input-group has-validation">
               <input
                 ref={inputRef}
-                onChange={(e) => setSubmitDisabled(!e.target.value)}
+                onChange={formik.handleChange}
+                value={formik.values.body}
                 name="body"
-                aria-label="Новое сообщение"
+                aria-label={t('placeholders.newMessage')}
                 placeholder={t('placeholders.message')}
                 className="border-0 p-0 ps-2 form-control"
               />
