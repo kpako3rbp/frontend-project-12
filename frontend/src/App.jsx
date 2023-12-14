@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import Layout from './components/Layout.jsx';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage.jsx';
 import NotFoundPage from './pages/NotFoundPage';
 import ChatPage from './pages/ChatPage';
 import AuthContext from './contexts/index.jsx';
@@ -51,6 +52,7 @@ const App = () => {
                 }
               />
               <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignupPage />} />
             </Routes>
           </Layout>
         </Router>

@@ -20,8 +20,8 @@ const Add = (props) => {
   const AddChannelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t('errors.required'))
-      .min(3, t('errors.counter.count_few', { minCount: 3, maxCount: 20 }))
-      .max(20, t('errors.counter.count_few', { minCount: 3, maxCount: 20 })),
+      .min(3, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 }))
+      .max(20, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 })),
   });
 
   const formik = useFormik({
@@ -74,7 +74,7 @@ const Add = (props) => {
               data-testid="input-body"
               name="name"
               id="name"
-              className={cn({ 'is-invalid': formik.errors.name && formik.errors.name })}
+              className={cn({ 'is-invalid': formik.errors.name && formik.touched.name })}
             />
             <label className="visually-hidden" htmlFor="name">
               {t('placeholders.channelName')}

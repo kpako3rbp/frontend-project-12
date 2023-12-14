@@ -7,8 +7,13 @@ export default {
       youcan: 'Но вы можете перейти',
       mainPage: 'на главную страницу',
     },
+    headers: {
+      login: 'Войти',
+      signup: 'Регистрация',
+    },
     buttons: {
       login: 'Войти',
+      signup: 'Зарегистрироваться',
       logout: 'Выйти',
       send: 'Отправить',
       remove: 'Удалить',
@@ -26,6 +31,8 @@ export default {
       username: 'Имя пользователя',
       nickname: 'Ваш ник',
       password: 'Пароль',
+      passwordsMatch: 'Пароли должны совпадать',
+      passwordConfirm: 'Подтвердите пароль',
       message: 'Введите сообщение...',
       channelName: 'Имя канала',
       newMessage: 'Новое сообщение',
@@ -34,10 +41,27 @@ export default {
       wrongUserOfPassword: 'Неверные имя пользователя или пароль',
       required: 'Обязательное поле',
       mustBeUnique: 'Должно быть уникальным',
-      counter: {
-        count_one: 'От {{minCount}} до {{maxCount}} символа',
-        count_few: 'От {{minCount}} до {{maxCount}} символов',
-        count_many: 'От {{minCount}} до {{maxCount}} символов',
+      passwordsMatch: 'Пароли должны совпадать',
+      channelName: {
+        counter: {
+          count_one: 'От {{minCount}} до {{maxCount}} символа',
+          count_few: 'От {{minCount}} до {{maxCount}} символов',
+          count_many: 'От {{minCount}} до {{maxCount}} символов',
+        },
+      },
+      username: {
+        counter: {
+          count_one: 'От {{minCount}} до {{maxCount}} символа',
+          count_few: 'От {{minCount}} до {{maxCount}} символов',
+          count_many: 'От {{minCount}} до {{maxCount}} символов',
+        },
+      },
+      password: {
+        counter: {
+          count_one: 'Не менее {{count}} символа',
+          count_few: 'Не менее {{count}} символов',
+          count_many: 'Не менее {{count}} символов',
+        },
       },
     },
     modals: {
