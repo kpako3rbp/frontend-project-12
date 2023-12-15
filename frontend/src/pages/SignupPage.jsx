@@ -92,7 +92,7 @@ const SignupPage = () => {
                   className={getInputClassName('username')}
                   name="username"
                   autoComplete="username"
-                  placeholder={t('placeholders.nickname')}
+                  placeholder={t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 })}
                   id="username"
                   onChange={formik.handleChange}
                   value={formik.values.username.trim()}
@@ -130,7 +130,7 @@ const SignupPage = () => {
                   className={getInputClassName('passwordConfirm')}
                   name="passwordConfirm"
                   autoComplete="new-password"
-                  placeholder={t('placeholders.passwordsMatch')}
+                  placeholder={t('errors.passwordsMatch')}
                   id="new-password"
                   onChange={formik.handleChange}
                   value={formik.values.passwordConfirm.trim()}
