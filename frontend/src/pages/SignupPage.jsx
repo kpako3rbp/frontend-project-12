@@ -27,9 +27,13 @@ const SignupPage = () => {
     password: Yup.string()
       .required(t('errors.required'))
       .min(6, t('errors.password.counter.count', { count: 6 })),
-    passwordConfirm: Yup.string()
-      .required(t('errors.required'))
-      .oneOf([Yup.ref('password')], t('errors.passwordsMatch')),
+    passwordConfirm: Yup.string().when('password', {
+      is: (password) => password && password.length > 0,
+      then: Yup.string()
+        .oneOf([Yup.ref('password')], t('errors.passwordsMatch'))
+        .required(t('errors.passwordsMatch')),
+      otherwise: Yup.string().notRequired(),
+    }),
   });
 
   const formik = useFormik({
