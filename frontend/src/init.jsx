@@ -4,6 +4,12 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App.jsx';
 import resources from './locales/index.js';
 import filter from 'leo-profanity';
+import { Provider, ErrorBoundary } from '@rollbar/react';
+
+const rollbarConfig = {
+  accessToken: '46e844f507f84a488eec74555e632cb2',
+  environment: 'testenv',
+};
 
 const init = async () => {
   const defaultLanguage = 'ru';
@@ -19,7 +25,13 @@ const init = async () => {
 
   filter.loadDictionary(defaultLanguage);
 
-  return <App />;
+  return (
+    <Provider config={rollbarConfig}>
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    </Provider>
+  );
 };
 
 export default init;
