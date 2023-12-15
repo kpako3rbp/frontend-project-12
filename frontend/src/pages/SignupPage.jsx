@@ -26,7 +26,7 @@ const SignupPage = () => {
       .max(20, t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 })),
     password: Yup.string()
       .required(t('errors.required'))
-      .min(6, t('errors.password.counter.count', { count: 6 })),
+      .min(6, 'Не менее 6 символов'),
     confirmPassword: Yup.string().when('password', {
       is: (password) => password && password.length > 0,
       then: Yup.string()
@@ -115,7 +115,7 @@ const SignupPage = () => {
                   className={getInputClassName('password')}
                   name="password"
                   autoComplete="new-password"
-                  placeholder={t('errors.password.counter.count', { count: 6 })}
+                  placeholder={'Не менее 6 символов'}
                   aria-describedby="passwordHelpBlock"
                   id="password"
                   onChange={formik.handleChange}
