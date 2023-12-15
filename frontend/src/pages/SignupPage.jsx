@@ -111,7 +111,7 @@ const SignupPage = () => {
                   className={getInputClassName('password')}
                   name="password"
                   autoComplete="current-password"
-                  placeholder={t('placeholders.password')}
+                  placeholder={t('errors.password.counter.count', { count: 6 })}
                   id="password"
                   onChange={formik.handleChange}
                   value={formik.values.password.trim()}
