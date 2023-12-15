@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import _ from 'lodash';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';

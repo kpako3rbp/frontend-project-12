@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { actions as channelsActions } from '../slices/channelsSlice.js';
 import { actions as messagesActions } from '../slices/messagesSlice.js';
-import { selectors } from '../slices/channelsSlice.js';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useFormik } from 'formik';
 import axios from 'axios';
 import routes from '../routes.js';
-import cn from 'classnames';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 

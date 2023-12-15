@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import _ from 'lodash';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import React, { useRef } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import socket from '../socket.js';
 import { toast } from 'react-toastify';

@@ -69,7 +69,7 @@ export default {
       addChannel: 'Добавить канал',
       removeChannel: 'Удалить канал',
       renameChannel: 'Переименовать канал',
-      wentWrong: 'Что-то пошло не так, попробуйте позже',
+      wentWrong: 'Ошибка соединения',
       sure: 'Уверены?',
     },
     controls: {
@@ -79,13 +79,13 @@ export default {
     notifications: {
       channelAdded: 'Канал создан',
       channelRenamed: 'Канал переименован',
-      channelRemoved: 'Канал удален',
+      channelRemoved: 'Канал удалён',
       channelAddFail: 'Ошибка при создании канала',
       channelRenameFail: 'Ошибка при переименовании канала',
       channelRemoveFail: 'Ошибка при удалении канала',
       messageAddFail: 'Ошибка при отправке сообщения',
-      wentWrong: 'Что-то пошло не так, попробуйте позже',      
-      fetchFail: 'Ошибка при загрузке данных, попробуйте позже',   
+      wentWrong: 'Ошибка соединения',      
+      fetchFail: 'Ошибка соединения',   
     }
   },
 };

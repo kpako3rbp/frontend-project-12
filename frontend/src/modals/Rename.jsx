@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import _ from 'lodash';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -77,7 +76,9 @@ const Rename = (props) => {
               id="name"
               className={cn({ 'is-invalid': formik.errors.name && formik.touched.name })}
             />
-            <label className="visually-hidden" htmlFor="name">{t('placeholders.channelName')}</label>
+            <label className="visually-hidden" htmlFor="name">
+              {t('placeholders.channelName')}
+            </label>
             {<div className="invalid-feedback">{formik.errors.name}</div>}
           </FormGroup>
         </Modal.Body>

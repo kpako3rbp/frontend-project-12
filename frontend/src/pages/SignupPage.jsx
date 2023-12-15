@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -42,7 +42,10 @@ const SignupPage = () => {
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        const res = await axios.post(routes.signupPath(), {username: values.username, password: values.password});
+        const res = await axios.post(routes.signupPath(), {
+          username: values.username,
+          password: values.password,
+        });
         localStorage.setItem('userId', JSON.stringify(res.data));
         auth.logIn();
         navigate('/');
