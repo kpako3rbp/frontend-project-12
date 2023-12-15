@@ -9,6 +9,7 @@ import axios from 'axios';
 import routes from '../routes.js';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 import Nav from '../components/Nav.jsx';
 import Chat from '../components/Chat.jsx';
@@ -24,6 +25,7 @@ const getAuthHeader = () => {
 };
 
 const ChatPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(false);
   const { username } = JSON.parse(localStorage.getItem('userId'));

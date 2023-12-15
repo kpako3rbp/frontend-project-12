@@ -3,6 +3,7 @@ import './assets/application.scss';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import Layout from './components/Layout.jsx';
 import LoginPage from './pages/LoginPage';
@@ -13,6 +14,11 @@ import AuthContext from './contexts/index.jsx';
 import useAuth from './hooks/index.jsx';
 
 import store from './slices/index.js';
+
+const rollbarConfig = {
+  accessToken: '46e844f507f84a488eec74555e632cb2',
+  environment: 'testenv',
+};
 
 const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -38,28 +44,31 @@ const ChatRoute = ({ children }) => {
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <AuthProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="*" element={<NotFoundPage />} />
-              <Route
-                path="/"
-                element={
-                  <ChatRoute>
-                    <ChatPage />
-                  </ChatRoute>
-                }
-              />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="signup" element={<SignupPage />} />
-            </Routes>            
-          </Layout>
-          <ToastContainer />
-        </Router>
-      </AuthProvider>
-    </Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <Provider store={store}>
+        <AuthProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path="*" element={<NotFoundPage />} />
+                <Route
+                  path="/"
+                  element={
+                    <ChatRoute>
+                      <ChatPage />
+                    </ChatRoute>
+                  }
+                />
+                <Route path="login" element={<LoginPage />} />
+                <Route path="signup" element={<SignupPage />} />
+              </Routes>
+            </Layout>
+            <ToastContainer />
+          </Router>
+        </AuthProvider>
+      </Provider>
+      <ErrorBoundary />
+    </RollbarProvider>
   );
 };
 
