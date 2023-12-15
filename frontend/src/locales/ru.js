@@ -32,7 +32,7 @@ export default {
       nickname: 'Ваш ник',
       password: 'Пароль',
       passwordsMatch: 'Пароли должны совпадать',
-      passwordConfirm: 'Подтвердите пароль',
+      confirmPassword: 'Подтвердите пароль',
       message: 'Введите сообщение...',
       channelName: 'Имя канала',
       newMessage: 'Новое сообщение',

@@ -26,7 +26,7 @@ const SignupPage = () => {
       .max(20, t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 })),
     password: Yup.string()
       .required(t('errors.required'))
-      .min(6, 'Не менее 6 символов'),
+      .min(6, t('errors.password.counter.count', { count: 6 })),
     confirmPassword: Yup.string().when('password', {
       is: (password) => password && password.length > 0,
       then: Yup.string()
@@ -110,14 +110,14 @@ const SignupPage = () => {
               </FormGroup>
               <FormGroup className="form-floating mb-3">
                 <FormControl
-                  required={true}
-                  type="password"
-                  className={getInputClassName('password')}
+                  placeholder="Не менее 6 символов"
                   name="password"
-                  autoComplete="new-password"
-                  placeholder={'Не менее 6 символов'}
                   aria-describedby="passwordHelpBlock"
+                  required=""
+                  autocomplete="new-password"
+                  type="password"
                   id="password"
+                  className={getInputClassName('password')}
                   onChange={formik.handleChange}
                   value={formik.values.password.trim()}
                   onBlur={formik.handleBlur}
@@ -131,13 +131,13 @@ const SignupPage = () => {
               </FormGroup>
               <FormGroup className="form-floating mb-3">
                 <FormControl
-                  required={true}
-                  type="password"
-                  className={getInputClassName('confirmPassword')}
-                  name="confirmPassword"
-                  autoComplete="new-password"
                   placeholder={t('errors.passwordsMatch')}
+                  name="confirmPassword"
+                  required=""
+                  autocomplete="new-password"
+                  type="password"
                   id="confirmPassword"
+                  className={getInputClassName('confirmPassword')}
                   onChange={formik.handleChange}
                   value={formik.values.confirmPassword.trim()}
                   onBlur={formik.handleBlur}
@@ -146,7 +146,7 @@ const SignupPage = () => {
                   <div className="invalid-tooltip">{formik.errors.confirmPassword}</div>
                 ) : null}
                 <label className="form-label" htmlFor="password">
-                  {t('placeholders.passwordConfirm')}
+                  {t('placeholders.confirmPassword')}
                 </label>
               </FormGroup>
               <Button className="w-100" variant="outline-primary" type="submit">
