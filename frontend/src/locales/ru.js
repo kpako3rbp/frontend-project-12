@@ -30,7 +30,6 @@ export default {
     placeholders: {
       username: 'Имя пользователя',
       nickname: 'Ваш ник',
-      password: 'Пароль',
       passwordsMatch: 'Пароли должны совпадать',
       passwordConfirm: 'Подтвердите пароль',
       message: 'Введите сообщение...',
@@ -59,9 +58,9 @@ export default {
       },
       password: {
         counter: {
-          count_one: 'Не менее {{count}} символа',
-          count_few: 'Не менее {{count}} символов',
-          count_many: 'Не менее {{count}} символов',
+          count_one: 'Не менее 6 символов',
+          count_few: 'Не менее 6 символов',
+          count_many: 'Не менее 6 символов',
         },
       },
     },
@@ -84,8 +83,8 @@ export default {
       channelRenameFail: 'Ошибка при переименовании канала',
       channelRemoveFail: 'Ошибка при удалении канала',
       messageAddFail: 'Ошибка при отправке сообщения',
-      wentWrong: 'Ошибка соединения',      
-      fetchFail: 'Ошибка соединения',   
-    }
+      wentWrong: 'Ошибка соединения',
+      fetchFail: 'Ошибка соединения',
+    },
   },
 };
