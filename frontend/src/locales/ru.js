@@ -30,7 +30,7 @@ export default {
     placeholders: {
       username: 'Имя пользователя',
       nickname: 'Ваш ник',
-      password: 'Пароль',
+      password: /^Пароль$/,
       passwordsMatch: 'Пароли должны совпадать',
       confirmPassword: 'Подтвердите пароль',
       message: 'Введите сообщение...',
