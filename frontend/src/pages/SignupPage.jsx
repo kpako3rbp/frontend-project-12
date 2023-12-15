@@ -70,7 +70,6 @@ const SignupPage = () => {
 
   const getInputClassName = (inputName) => {
     return cn({
-      'form-control': true,
       'is-invalid': formik.errors[inputName] && formik.touched[inputName],
     });
   };
@@ -87,12 +86,16 @@ const SignupPage = () => {
               <h1 className="text-center mb-4">{t('headers.signup')}</h1>
               <FormGroup className="form-floating mb-3">
                 <FormControl
+                  required={true}
                   ref={inputRef}
                   type="text"
                   className={getInputClassName('username')}
                   name="username"
                   autoComplete="username"
-                  placeholder={t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 })}
+                  placeholder={t('errors.username.counter.count_few', {
+                    minCount: 3,
+                    maxCount: 20,
+                  })}
                   id="username"
                   onChange={formik.handleChange}
                   value={formik.values.username.trim()}
@@ -107,11 +110,13 @@ const SignupPage = () => {
               </FormGroup>
               <FormGroup className="form-floating mb-3">
                 <FormControl
+                  required={true}
                   type="password"
                   className={getInputClassName('password')}
                   name="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   placeholder={t('errors.password.counter.count', { count: 6 })}
+                  aria-describedby="passwordHelpBlock"
                   id="password"
                   onChange={formik.handleChange}
                   value={formik.values.password.trim()}
@@ -126,6 +131,7 @@ const SignupPage = () => {
               </FormGroup>
               <FormGroup className="form-floating mb-3">
                 <FormControl
+                  required={true}
                   type="password"
                   className={getInputClassName('passwordConfirm')}
                   name="passwordConfirm"
