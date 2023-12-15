@@ -27,7 +27,7 @@ const SignupPage = () => {
     password: Yup.string()
       .required(t('errors.required'))
       .min(6, t('errors.password.counter.count', { count: 6 })),
-    passwordConfirm: Yup.string().when('password', {
+    confirmPassword: Yup.string().when('password', {
       is: (password) => password && password.length > 0,
       then: Yup.string()
         .oneOf([Yup.ref('password')], t('errors.passwordsMatch'))
@@ -40,7 +40,7 @@ const SignupPage = () => {
     initialValues: {
       username: '',
       password: '',
-      passwordConfirm: '',
+      confirmPassword: '',
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
@@ -142,8 +142,8 @@ const SignupPage = () => {
                   value={formik.values.confirmPassword.trim()}
                   onBlur={formik.handleBlur}
                 />
-                {formik.errors.passwordConfirm && formik.touched.passwordConfirm ? (
-                  <div className="invalid-tooltip">{formik.errors.passwordConfirm}</div>
+                {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
+                  <div className="invalid-tooltip">{formik.errors.confirmPassword}</div>
                 ) : null}
                 <label className="form-label" htmlFor="password">
                   {t('placeholders.passwordConfirm')}
