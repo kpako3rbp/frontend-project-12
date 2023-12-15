@@ -29,7 +29,6 @@ const SignupPage = () => {
       .min(6, t('errors.password.counter.count', { count: 6 })),
     passwordConfirm: Yup.string()
       .required(t('errors.required'))
-      .min(6, t('errors.password.counter.count', { count: 6 }))
       .oneOf([Yup.ref('password')], t('errors.passwordsMatch')),
   });
 
