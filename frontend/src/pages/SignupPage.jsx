@@ -58,7 +58,7 @@ const SignupPage = () => {
           formik.setErrors({
             username: t(' '),
             password: t(' '),
-            passwordConfirm: t('errors.userExists'),
+            confirmPassword: t('errors.userExists'),
           });
           inputRef.current.select();
           return;
@@ -133,13 +133,13 @@ const SignupPage = () => {
                 <FormControl
                   required={true}
                   type="password"
-                  className={getInputClassName('passwordConfirm')}
-                  name="passwordConfirm"
+                  className={getInputClassName('confirmPassword')}
+                  name="confirmPassword"
                   autoComplete="new-password"
                   placeholder={t('errors.passwordsMatch')}
-                  id="new-password"
+                  id="confirmPassword"
                   onChange={formik.handleChange}
-                  value={formik.values.passwordConfirm.trim()}
+                  value={formik.values.confirmPassword.trim()}
                   onBlur={formik.handleBlur}
                 />
                 {formik.errors.passwordConfirm && formik.touched.passwordConfirm ? (
