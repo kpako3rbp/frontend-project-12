@@ -93,6 +93,7 @@ const SignupPage = () => {
                   id="username"
                   onChange={formik.handleChange}
                   value={formik.values.username.trim()}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.errors.username && formik.touched.username ? (
                   <div className="invalid-tooltip">{formik.errors.username}</div>
@@ -111,6 +112,7 @@ const SignupPage = () => {
                   id="password"
                   onChange={formik.handleChange}
                   value={formik.values.password.trim()}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.errors.password && formik.touched.password ? (
                   <div className="invalid-tooltip">{formik.errors.password}</div>
@@ -129,6 +131,7 @@ const SignupPage = () => {
                   id="new-password"
                   onChange={formik.handleChange}
                   value={formik.values.passwordConfirm.trim()}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.errors.passwordConfirm && formik.touched.passwordConfirm ? (
                   <div className="invalid-tooltip">{formik.errors.passwordConfirm}</div>

@@ -79,6 +79,7 @@ const LoginPage = () => {
                   id="username"
                   onChange={formik.handleChange}
                   value={formik.values.username.trim()}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.errors.username && formik.touched.username ? (
                   <div className="invalid-tooltip">{formik.errors.username}</div>
@@ -97,6 +98,7 @@ const LoginPage = () => {
                   id="password"
                   onChange={formik.handleChange}
                   value={formik.values.password.trim()}
+                  onBlur={formik.handleBlur}
                 />
                 {formik.errors.password && formik.touched.password ? (
                   <div className="invalid-tooltip">{formik.errors.password}</div>
