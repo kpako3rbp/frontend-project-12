@@ -51,7 +51,9 @@ const Nav = () => {
             <span className="me-1">#</span>
             {name}
           </Button>
-          <Dropdown.Toggle className={menuBtnClassName} split variant="" id="dropdown-custom-2" />
+          <Dropdown.Toggle className={menuBtnClassName} split variant="" id="dropdown-custom-2">
+            <span className="visually-hidden">{t('buttons.manageChannel')}</span>
+          </Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => showModal('removing', channel)} href="#/action-1">

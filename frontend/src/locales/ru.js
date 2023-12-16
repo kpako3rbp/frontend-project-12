@@ -18,6 +18,7 @@ export default {
       send: 'Отправить',
       remove: 'Удалить',
       cancel: 'Отменить',
+      manageChannel: 'Управление каналом',
     },
     chat: {
       channels: 'Каналы',
