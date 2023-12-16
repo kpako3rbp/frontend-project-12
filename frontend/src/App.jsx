@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './assets/application.scss';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 
@@ -24,8 +30,10 @@ const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const contextValue = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
+
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 };
 
@@ -36,31 +44,29 @@ const ChatRoute = ({ children }) => {
   return auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />;
 };
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <AuthProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="*" element={<NotFoundPage />} />
-              <Route
-                path="/"
-                element={
-                  <ChatRoute>
-                    <ChatPage />
-                  </ChatRoute>
-                }
-              />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="signup" element={<SignupPage />} />
-            </Routes>
-          </Layout>
-          <ToastContainer />
-        </Router>
-      </AuthProvider>
-    </Provider>
-  );
-};
+const App = () => (
+  <Provider store={store}>
+    <AuthProvider>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="*" element={<NotFoundPage />} />
+            <Route
+              path="/"
+              element={(
+                <ChatRoute>
+                  <ChatPage />
+                </ChatRoute>
+              )}
+            />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+          </Routes>
+        </Layout>
+        <ToastContainer />
+      </Router>
+    </AuthProvider>
+  </Provider>
+);
 
 export default App;
