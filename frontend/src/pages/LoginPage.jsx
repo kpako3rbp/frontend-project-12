@@ -40,7 +40,6 @@ const LoginPage = () => {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
           formik.setErrors({
-            username: t('errors.wrongUserOfPassword'),
             password: t('errors.wrongUserOfPassword'),
           });
           inputRef.current.select();
@@ -51,12 +50,9 @@ const LoginPage = () => {
     },
   });
 
-  const getInputClassName = (inputName) => {
-    return cn({
-      'form-control': true,
-      'is-invalid': formik.errors[inputName] && formik.touched[inputName],
-    });
-  };
+  const inputClassName = cn({
+    'is-invalid': !formik.isValid,
+  });
 
   return (
     <div className="row justify-content-center align-content-center h-100">
@@ -72,7 +68,7 @@ const LoginPage = () => {
                 <FormControl
                   ref={inputRef}
                   type="text"
-                  className={getInputClassName('username')}
+                  className={inputClassName}
                   name="username"
                   autoComplete="username"
                   placeholder={t('placeholders.nickname')}
@@ -91,7 +87,7 @@ const LoginPage = () => {
               <FormGroup className="form-floating mb-3">
                 <FormControl
                   type="password"
-                  className={getInputClassName('password')}
+                  className={inputClassName}
                   name="password"
                   autoComplete="current-password"
                   placeholder={t('placeholders.password')}
