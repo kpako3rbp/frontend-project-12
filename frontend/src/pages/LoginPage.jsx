@@ -85,7 +85,7 @@ const LoginPage = () => {
                   <div className="invalid-tooltip">{formik.errors.username}</div>
                 ) : null}
                 <label className="form-label" htmlFor="username">
-                  {t('placeholders.username')}
+                  {t('placeholders.nickname')}
                 </label>
               </FormGroup>
               <FormGroup className="form-floating mb-3">
