@@ -23,7 +23,8 @@ const init = async () => {
     },
   });
 
-  filter.loadDictionary(defaultLanguage);
+  filter.add(filter.getDictionary('en'));
+  filter.add(filter.getDictionary('ru'));
 
   return (
     <Provider config={rollbarConfig}>
