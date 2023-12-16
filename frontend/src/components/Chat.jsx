@@ -81,6 +81,7 @@ const Chat = ({ username }) => {
           <p className="m-0">
             <b>
               #
+              &nbsp;
               {currentChannel.name}
             </b>
           </p>
