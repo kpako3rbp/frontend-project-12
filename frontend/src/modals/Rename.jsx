@@ -27,21 +27,13 @@ const Rename = (props) => {
       .max(20, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 })),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      name: modalInfo.channel.name,
-    },
-    validationSchema: AddChannelSchema,
-    onSubmit: (values) => handleSubmit(values),
-  });
-
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, formikData) => {
     const renamedChannel = { id: modalInfo.channel.id, name: values.name };
     submitBtnRef.disabled = true;
 
     const hasChannelWithName = channels.find(({ name }) => name === values.name);
     if (hasChannelWithName) {
-      formik.setErrors({
+      formikData.setErrors({
         name: t('errors.mustBeUnique'),
       });
       submitBtnRef.disabled = false;
@@ -58,6 +50,14 @@ const Rename = (props) => {
       }
     });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: modalInfo.channel.name,
+    },
+    validationSchema: AddChannelSchema,
+    onSubmit: (values) => handleSubmit(values, formik),
+  });
 
   return (
     <Modal show>

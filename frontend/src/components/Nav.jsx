@@ -86,7 +86,7 @@ const Nav = () => {
         channelsBoxRef.current.scrollTop = 0;
       }, 0);
     }
-  }, [currentChannelId]);
+  }, [currentChannelId, channels]);
 
   useEffect(() => {
     try {
@@ -101,7 +101,7 @@ const Nav = () => {
     } catch {
       toast.error(t('notifications.wentWrong'));
     }
-  }, []);
+  }, [dispatch, t]);
 
   useEffect(() => {
     try {
@@ -111,7 +111,7 @@ const Nav = () => {
     } catch {
       toast.error(t('notifications.wentWrong'));
     }
-  }, []);
+  }, [dispatch, t]);
 
   useEffect(() => {
     try {
@@ -121,7 +121,7 @@ const Nav = () => {
     } catch {
       toast.error(t('notifications.wentWrong'));
     }
-  }, []);
+  }, [dispatch, t]);
 
   return (
     <>

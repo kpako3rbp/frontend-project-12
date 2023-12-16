@@ -58,7 +58,7 @@ const Add = (props) => {
       name: '',
     },
     validationSchema: AddChannelSchema,
-    onSubmit: (values) => handleSubmit(values),
+    onSubmit: (values) => handleSubmit(values, formik),
   });
 
   return (
