@@ -91,6 +91,7 @@ const Chat = ({ username }) => {
             <div key={`message-${id}`} className="text-break mb-2">
               <b>{login}</b>
               :
+              &nbsp;
               {filter.clean(body)}
             </div>
           ))}
