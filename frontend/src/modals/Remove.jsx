@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import socket from '../socket.js';
 import { toast } from 'react-toastify';
+import socket from '../socket.js';
 
 const Remove = (props) => {
   const { t } = useTranslation();

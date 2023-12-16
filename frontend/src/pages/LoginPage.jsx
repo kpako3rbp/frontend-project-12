@@ -4,11 +4,11 @@ import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import loginImg from '../assets/avatar.jpg';
-import routes from '../routes.js';
 import cn from 'classnames';
-import useAuth from '../hooks';
 import { useTranslation } from 'react-i18next';
+import routes from '../routes.js';
+import useAuth from '../hooks';
+import loginImg from '../assets/avatar.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -110,7 +110,8 @@ const LoginPage = () => {
           </div>
           <div className="card-footer p-4">
             <div className="text-center">
-              <span>{t('noAccount')}</span> <Link to="/signup">{t('signup')}</Link>
+              <span>{t('noAccount')}</span>
+              <Link to="/signup">{t('signup')}</Link>
             </div>
           </div>
         </div>

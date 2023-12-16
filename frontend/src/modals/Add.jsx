@@ -1,11 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import {
+  Modal,
+  FormGroup,
+  FormControl,
+  Button,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import socket from '../socket.js';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
+import socket from '../socket.js';
 
 const Add = (props) => {
   const { t } = useTranslation();
@@ -24,21 +29,13 @@ const Add = (props) => {
       .max(20, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 })),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-    },
-    validationSchema: AddChannelSchema,
-    onSubmit: (values) => handleSubmit(values),
-  });
-
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, formikData) => {
     const newChannel = { name: values.name };
     submitBtnRef.disabled = true;
 
     const hasChannelWithName = channels.find(({ name }) => name === values.name);
     if (hasChannelWithName) {
-      formik.setErrors({
+      formikData.setErrors({
         name: t('errors.mustBeUnique'),
       });
       submitBtnRef.disabled = false;
@@ -55,6 +52,14 @@ const Add = (props) => {
       }
     });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+    },
+    validationSchema: AddChannelSchema,
+    onSubmit: (values) => handleSubmit(values),
+  });
 
   return (
     <Modal show>
@@ -78,7 +83,7 @@ const Add = (props) => {
             <label className="visually-hidden" htmlFor="name">
               {t('placeholders.channelName')}
             </label>
-            {<div className="invalid-feedback">{formik.errors.name}</div>}
+            <div className="invalid-feedback">{formik.errors.name}</div>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>

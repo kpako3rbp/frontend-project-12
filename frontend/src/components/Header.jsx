@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import useAuth from '../hooks';
 import { useTranslation } from 'react-i18next';
+import useAuth from '../hooks';
 
 const Header = () => {
   const auth = useAuth();

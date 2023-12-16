@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import { Modal, FormGroup, FormControl, Button } from 'react-bootstrap';
+import {
+  Modal, FormGroup, FormControl, Button,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import socket from '../socket.js';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
+import socket from '../socket.js';
 
 const Rename = (props) => {
   const { t } = useTranslation();
@@ -79,7 +81,7 @@ const Rename = (props) => {
             <label className="visually-hidden" htmlFor="name">
               {t('placeholders.channelName')}
             </label>
-            {<div className="invalid-feedback">{formik.errors.name}</div>}
+            <div className="invalid-feedback">{formik.errors.name}</div>
           </FormGroup>
         </Modal.Body>
         <Modal.Footer>

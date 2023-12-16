@@ -1,10 +1,10 @@
 import React from 'react';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import App from './App.jsx';
-import resources from './locales/index.js';
 import filter from 'leo-profanity';
 import { Provider, ErrorBoundary } from '@rollbar/react';
+import App from './App.jsx';
+import resources from './locales/index.js';
 
 const rollbarConfig = {
   accessToken: '46e844f507f84a488eec74555e632cb2',

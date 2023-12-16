@@ -4,11 +4,11 @@ import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import signupImg from '../assets/avatar_1.jpg';
-import routes from '../routes.js';
 import cn from 'classnames';
-import useAuth from '../hooks';
 import { useTranslation } from 'react-i18next';
+import routes from '../routes.js';
+import useAuth from '../hooks';
+import signupImg from '../assets/avatar_1.jpg';
 
 const SignupPage = () => {
   const { t } = useTranslation();
@@ -68,11 +68,9 @@ const SignupPage = () => {
     },
   });
 
-  const getInputClassName = (inputName) => {
-    return cn({
-      'is-invalid': formik.errors[inputName] && formik.touched[inputName],
-    });
-  };
+  const getInputClassName = (inputName) => cn({
+    'is-invalid': formik.errors[inputName] && formik.touched[inputName],
+  });
 
   return (
     <div className="row justify-content-center align-content-center h-100">
@@ -86,7 +84,7 @@ const SignupPage = () => {
               <h1 className="text-center mb-4">{t('headers.signup')}</h1>
               <FormGroup className="form-floating mb-3">
                 <FormControl
-                  required={true}
+                  required
                   ref={inputRef}
                   type="text"
                   className={getInputClassName('username')}
