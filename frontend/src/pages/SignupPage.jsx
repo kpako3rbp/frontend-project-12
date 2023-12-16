@@ -145,7 +145,7 @@ const SignupPage = () => {
                 {formik.errors.confirmPassword && formik.touched.confirmPassword ? (
                   <div className="invalid-tooltip">{formik.errors.confirmPassword}</div>
                 ) : null}
-                <label className="form-label" htmlFor="password">
+                <label className="form-label" htmlFor="confirmPassword">
                   {t('placeholders.confirmPassword')}
                 </label>
               </FormGroup>
