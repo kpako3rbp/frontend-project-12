@@ -4,10 +4,10 @@ import {
   Modal, FormGroup, FormControl, Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import useSocket from '../hooks/useSocket';
+import editChannelSchema from '../helpers/validation/editChannelSchema';
 
 const Rename = (props) => {
   const { t } = useTranslation();
@@ -20,13 +20,6 @@ const Rename = (props) => {
     inputRef.current.focus();
     inputRef.current.select();
   }, []);
-
-  const AddChannelSchema = Yup.object().shape({
-    name: Yup.string()
-      .required(t('errors.required'))
-      .min(3, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 }))
-      .max(20, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 })),
-  });
 
   const handleSubmit = (values, formikData) => {
     const renamedChannel = { id: modalInfo.channel.id, name: values.name };
@@ -56,7 +49,7 @@ const Rename = (props) => {
     initialValues: {
       name: modalInfo.channel.name,
     },
-    validationSchema: AddChannelSchema,
+    validationSchema: editChannelSchema(t),
     onSubmit: (values) => handleSubmit(values, formik),
   });
 

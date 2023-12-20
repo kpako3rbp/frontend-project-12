@@ -7,10 +7,10 @@ import {
   Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
 import useSocket from '../hooks/useSocket';
+import editChannelSchema from '../helpers/validation/editChannelSchema';
 
 const Add = (props) => {
   const { t } = useTranslation();
@@ -22,13 +22,6 @@ const Add = (props) => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  const AddChannelSchema = Yup.object().shape({
-    name: Yup.string()
-      .required(t('errors.required'))
-      .min(3, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 }))
-      .max(20, t('errors.channelName.counter.count_few', { minCount: 3, maxCount: 20 })),
-  });
 
   const handleSubmit = (values, formikData) => {
     const newChannel = { name: values.name };
@@ -58,7 +51,7 @@ const Add = (props) => {
     initialValues: {
       name: '',
     },
-    validationSchema: AddChannelSchema,
+    validationSchema: editChannelSchema(t),
     onSubmit: (values) => handleSubmit(values, formik),
   });
 
