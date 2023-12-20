@@ -1,41 +1,33 @@
 import React, { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import axios from 'axios';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import routes from '../routes.js';
-import useAuth from '../hooks';
-import loginImg from '../assets/avatar.jpg';
+import routes from '../../routes.js';
+import useAuth from '../../hooks/useAuth';
+import loginImg from '../../assets/images/avatar.jpg';
+import createLoginSchema from '../../helpers/validation/loginSchema.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
-  const navigate = useNavigate();
+  const { logIn } = useAuth();
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  const LoginSchema = Yup.object().shape({
-    username: Yup.string().required(t('errors.required')),
-    password: Yup.string().required(t('errors.required')),
-  });
 
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema: LoginSchema,
+    validationSchema: createLoginSchema(t),
     onSubmit: async (values) => {
       try {
-        const res = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
-        navigate('/');
+        const { data } = await axios.post(routes.loginPath(), values);
+        logIn(data);
       } catch (err) {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {

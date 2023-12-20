@@ -1,40 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import axios from 'axios';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import routes from '../routes.js';
-import useAuth from '../hooks';
-import signupImg from '../assets/avatar_1.jpg';
+import routes from '../../routes.js';
+import useAuth from '../../hooks/useAuth';
+import signupImg from '../../assets/images/avatar_1.jpg';
+import createSignupSchema from '../../helpers/validation/signupSchema';
 
 const SignupPage = () => {
   const { t } = useTranslation();
-  const auth = useAuth();
-  const navigate = useNavigate();
+  const { logIn } = useAuth();
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
-  const LoginSchema = Yup.object().shape({
-    username: Yup.string()
-      .required(t('errors.required'))
-      .min(3, t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 }))
-      .max(20, t('errors.username.counter.count_few', { minCount: 3, maxCount: 20 })),
-    password: Yup.string()
-      .required(t('errors.required'))
-      .min(6, t('errors.password.counter.count', { count: 6 })),
-    confirmPassword: Yup.string().when('password', {
-      is: (password) => password && password.length > 0,
-      then: Yup.string()
-        .oneOf([Yup.ref('password')], t('errors.passwordsMatch'))
-        .required(t('errors.passwordsMatch')),
-      otherwise: Yup.string().notRequired(),
-    }),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -42,16 +23,14 @@ const SignupPage = () => {
       password: '',
       confirmPassword: '',
     },
-    validationSchema: LoginSchema,
+    validationSchema: createSignupSchema(t),
     onSubmit: async (values) => {
       try {
-        const res = await axios.post(routes.signupPath(), {
+        const { data } = await axios.post(routes.signupPath(), {
           username: values.username,
           password: values.password,
         });
-        localStorage.setItem('userId', JSON.stringify(res.data));
-        auth.logIn();
-        navigate('/');
+        logIn(data);
       } catch (err) {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 409) {
@@ -112,7 +91,7 @@ const SignupPage = () => {
                   name="password"
                   aria-describedby="passwordHelpBlock"
                   required=""
-                  autocomplete="new-password"
+                  autoComplete="new-password"
                   type="password"
                   id="password"
                   className={getInputClassName('password')}
@@ -132,7 +111,7 @@ const SignupPage = () => {
                   placeholder={t('errors.passwordsMatch')}
                   name="confirmPassword"
                   required=""
-                  autocomplete="new-password"
+                  autoComplete="new-password"
                   type="password"
                   id="confirmPassword"
                   className={getInputClassName('confirmPassword')}

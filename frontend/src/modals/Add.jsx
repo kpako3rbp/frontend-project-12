@@ -10,11 +10,12 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
-import socket from '../socket.js';
+import useSocket from '../hooks/useSocket';
 
 const Add = (props) => {
   const { t } = useTranslation();
   const { onHide, channels } = props;
+  const socket = useSocket();
 
   const submitBtnRef = useRef();
   const inputRef = useRef();

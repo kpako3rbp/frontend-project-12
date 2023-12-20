@@ -7,10 +7,11 @@ import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import cn from 'classnames';
 import { toast } from 'react-toastify';
-import socket from '../socket.js';
+import useSocket from '../hooks/useSocket';
 
 const Rename = (props) => {
   const { t } = useTranslation();
+  const socket = useSocket();
   const { modalInfo, onHide, channels } = props;
 
   const submitBtnRef = useRef();

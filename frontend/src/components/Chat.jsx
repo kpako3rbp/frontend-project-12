@@ -4,18 +4,17 @@ import React, {
   useRef,
 } from 'react';
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import socket from '../socket.js';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
+import useSocket from '../hooks/useSocket';
 
 const Chat = ({ username }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
+  const socket = useSocket();
   const inputRef = useRef();
   const messagesBoxRef = useRef();
   const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -62,17 +61,6 @@ const Chat = ({ username }) => {
   useEffect(() => {
     setSubmitDisabled(!formik.values.body);
   }, [formik.values.body]);
-
-  // Добавляем соообщение в стейт, когда сервер возвращает новое сообщение
-  useEffect(() => {
-    try {
-      socket.on('newMessage', (payload) => {
-        dispatch(messagesActions.addMessage(payload));
-      });
-    } catch {
-      toast.error(t('notifications.wentWrong'));
-    }
-  }, [dispatch, t]);
 
   return (
     <div className="col p-0 h-100">

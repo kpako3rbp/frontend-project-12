@@ -3,18 +3,18 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
-import { actions as messagesActions } from '../slices/messagesSlice.js';
-import routes from '../routes.js';
+import { actions as channelsActions } from '../../slices/channelsSlice.js';
+import { actions as messagesActions } from '../../slices/messagesSlice.js';
+import routes from '../../routes.js';
 
-import Nav from '../components/Nav.jsx';
-import Chat from '../components/Chat.jsx';
+import Nav from '../../components/Nav.jsx';
+import Chat from '../../components/Chat.jsx';
 
 const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  const user = JSON.parse(localStorage.getItem('user'));
 
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
+  if (user && user.token) {
+    return { Authorization: `Bearer ${user.token}` };
   }
 
   return {};
@@ -24,7 +24,7 @@ const ChatPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isDataLoaded, setDataLoaded] = useState(false);
-  const { username } = JSON.parse(localStorage.getItem('userId'));
+  const { username } = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     const fetchContent = async () => {

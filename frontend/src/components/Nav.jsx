@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
-import { toast } from 'react-toastify';
-import socket from '../socket.js';
 import getModal from '../modals/index.js';
-import { actions as channelsActions } from '../slices/channelsSlice.js';
+import ChannelItem from './ChannelItem';
 
 const renderModal = ({ modalInfo, hideModal, channels }) => {
   if (!modalInfo.type) {
@@ -19,109 +15,20 @@ const renderModal = ({ modalInfo, hideModal, channels }) => {
 
 const Nav = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
-  const [selectedChannelId, setSelectedChannelId] = useState(currentChannelId);
   const channelsBoxRef = useRef();
 
   const [modalInfo, setModalInfo] = useState({ type: null, channel: null });
   const hideModal = () => setModalInfo({ type: null, channel: null });
   const showModal = (type, channel = null) => setModalInfo({ type, channel });
 
-  const renderChannel = (channel) => {
-    const { id, name, removable } = channel;
-    const channelBtnClassName = cn({
-      'w-100 rounded-0 text-start btn': true,
-      'btn-secondary': id === selectedChannelId,
-    });
-    const menuBtnClassName = cn({
-      'flex-grow-0 dropdown-toggle dropdown-toggle-split btn': true,
-      'btn-secondary': id === selectedChannelId,
-    });
-
-    const handleClick = (channelId) => {
-      setSelectedChannelId(channelId);
-      dispatch(channelsActions.setCurrentChannel(channelId));
-    };
-
-    const renderEditableBtn = () => (
-      <Dropdown as={ButtonGroup} className="d-flex">
-        <Button onClick={() => handleClick(id)} variant="" className={channelBtnClassName}>
-          <span className="me-1">#</span>
-          {name}
-        </Button>
-        <Dropdown.Toggle className={menuBtnClassName} split variant="" id="dropdown-custom-2">
-          <span className="visually-hidden">{t('buttons.manageChannel')}</span>
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => showModal('removing', channel)} href="#/action-1">
-            {t('controls.remove')}
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => showModal('renaming', channel)} href="#/action-2">
-            {t('controls.rename')}
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-
-    const renderStaticBtn = () => (
-      <button onClick={() => handleClick(id)} type="button" className={channelBtnClassName}>
-        <span className="me-1">#</span>
-        {name}
-      </button>
-    );
-
-    return (
-      <li key={id} className="nav-item w-100">
-        {removable ? renderEditableBtn() : renderStaticBtn()}
-      </li>
-    );
-  };
-
   useEffect(() => {
-    setSelectedChannelId(currentChannelId);
-    if (channels[0].id === currentChannelId) {
-      setTimeout(() => {
-        channelsBoxRef.current.scrollTop = 0;
-      }, 0);
+    if (currentChannelId === channels[0].id) {
+      channelsBoxRef.current.scrollTop = 0;
+    } else {
+      channelsBoxRef.current.scrollTop = channelsBoxRef.current.scrollHeight;
     }
   }, [currentChannelId, channels]);
-
-  useEffect(() => {
-    try {
-      socket.on('newChannel', (payload) => {
-        dispatch(channelsActions.addChannel(payload));
-        setSelectedChannelId(payload.id);
-        dispatch(channelsActions.setCurrentChannel(payload.id));
-        setTimeout(() => {
-          channelsBoxRef.current.scrollTop = channelsBoxRef.current.scrollHeight;
-        }, 0);
-      });
-    } catch {
-      toast.error(t('notifications.wentWrong'));
-    }
-  }, [dispatch, t]);
-
-  useEffect(() => {
-    try {
-      socket.on('renameChannel', (payload) => {
-        dispatch(channelsActions.renameChannel(payload));
-      });
-    } catch {
-      toast.error(t('notifications.wentWrong'));
-    }
-  }, [dispatch, t]);
-
-  useEffect(() => {
-    try {
-      socket.on('removeChannel', (payload) => {
-        dispatch(channelsActions.removeChannel(payload));
-      });
-    } catch {
-      toast.error(t('notifications.wentWrong'));
-    }
-  }, [dispatch, t]);
 
   return (
     <>
@@ -151,7 +58,9 @@ const Nav = () => {
           id="channels-box"
           className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
         >
-          {channels.map((channel) => renderChannel(channel))}
+          {channels.map((channel) => (
+            <ChannelItem key={channel.id} channel={channel} showModal={showModal} />
+          ))}
         </ul>
       </div>
       {renderModal({ modalInfo, hideModal, channels })}

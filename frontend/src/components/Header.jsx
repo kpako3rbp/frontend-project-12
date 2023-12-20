@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks';
+import useAuth from '../hooks/useAuth';
 
 const Header = () => {
-  const auth = useAuth();
+  const { loggedIn, logOut } = useAuth();
   const { t } = useTranslation();
 
   return (
@@ -14,8 +14,8 @@ const Header = () => {
           <Link className="navbar-brand" to="/">
             Hexlet Chat
           </Link>
-          {auth.loggedIn ? (
-            <button onClick={auth.logOut} type="button" className="btn btn-primary">
+          {loggedIn ? (
+            <button onClick={logOut} type="button" className="btn btn-primary">
               {t('buttons.logout')}
             </button>
           ) : null}

@@ -2,10 +2,11 @@ import React, { useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import socket from '../socket.js';
+import useSocket from '../hooks/useSocket';
 
 const Remove = (props) => {
   const { t } = useTranslation();
+  const socket = useSocket();
   const { modalInfo, onHide } = props;
   const submitBtnRef = useRef();
 
@@ -27,7 +28,7 @@ const Remove = (props) => {
   return (
     <Modal show>
       <Modal.Header closeButton onHide={onHide}>
-        <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
 
       <form onSubmit={handleSubmit}>

@@ -1,15 +1,15 @@
 import React from 'react';
 import cn from 'classnames';
 import Header from './Header';
-import useAuth from '../hooks';
+import useAuth from '../hooks/useAuth';
 
 const Layout = ({ children }) => {
-  const auth = useAuth();
+  const { loggedIn } = useAuth();
 
   const containerClassName = cn({
-    'container-fluid': !auth.loggedIn,
+    'container-fluid': !loggedIn,
     'h-100': true,
-    'container my-4 overflow-hidden rounded shadow': auth.loggedIn,
+    'container my-4 overflow-hidden rounded shadow': loggedIn,
   });
 
   return (
