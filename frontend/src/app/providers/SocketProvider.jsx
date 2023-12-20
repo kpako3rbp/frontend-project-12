@@ -16,12 +16,12 @@ const SocketProvider = ({ children }) => {
     dispatch(channelsActions.setCurrentChannel(channel.id));
   });
 
-  socket.on('renameChannel', ({ id }) => {
-    dispatch(channelsActions.renameChannel(id));
+  socket.on('renameChannel', ({ id, name }) => {
+    dispatch(channelsActions.renameChannel({ id, name }));
   });
 
-  socket.on('removeChannel', ({ id, name }) => {
-    dispatch(channelsActions.removeChannel({ id, name }));
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(channelsActions.removeChannel({ id }));
   });
 
   return (
