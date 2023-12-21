@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/kpako3rbp/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.8"
+    "@hexlet/chat-server": "^1.1.8",
+    "compose-function": "^3.0.3"
   },
   "devDependencies": {
     "prettier": "^3.1.1"
